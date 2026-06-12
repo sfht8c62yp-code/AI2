@@ -1,0 +1,1159 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>歯科医院専用 AI右腕｜院長の事務時間を減らし、診療に集中</title>
+  <meta
+    name="description"
+    content="歯科医院院長向けAI顧問。ChatGPT初期設定、患者説明文・スタッフ教育マニュアル・求人・Instagramまで医院専用に整備。難しい設定なし。無料相談受付中。"
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #f7f9fb;
+      --bg-warm: #f4f7f6;
+      --panel: #ffffff;
+      --text: #1a2332;
+      --muted: #5c6678;
+      --brand: #1a7a8c;
+      --brand-light: #e8f4f6;
+      --brand-dark: #0f5c6b;
+      --accent: #c9a227;
+      --accent-soft: #faf6eb;
+      --ok: #1d8a5c;
+      --line: #dce5ea;
+      --shadow: 0 20px 48px rgba(15, 92, 107, 0.1);
+      --shadow-sm: 0 8px 24px rgba(26, 35, 50, 0.06);
+      --radius: 16px;
+      --maxw: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans JP", "Hiragino Sans", system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.75;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .serif {
+      font-family: "Noto Serif JP", "Hiragino Mincho ProN", serif;
+    }
+
+    .container {
+      width: min(var(--maxw), 92%);
+      margin: 0 auto;
+    }
+
+    /* ── Nav ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      gap: 16px;
+    }
+
+    .logo {
+      font-family: "Noto Serif JP", serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--brand-dark);
+      letter-spacing: 0.02em;
+    }
+
+    .logo span {
+      display: block;
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .nav-cta .btn {
+      padding: 10px 18px;
+      font-size: 0.9rem;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 15px 26px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--brand-dark), var(--brand));
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .btn-sub {
+      background: var(--panel);
+      border-color: var(--line);
+      color: var(--brand-dark);
+    }
+
+    .btn-sub:hover {
+      background: var(--brand-light);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 48px 0 56px;
+      background: linear-gradient(165deg, #fff 0%, var(--bg-warm) 55%, #eef4f6 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -120px;
+      right: -80px;
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(26, 122, 140, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      align-items: center;
+      position: relative;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--brand-light);
+      border: 1px solid #c5e0e6;
+      border-radius: 999px;
+      padding: 7px 16px;
+      font-size: 0.85rem;
+      color: var(--brand-dark);
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .badge::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--ok);
+    }
+
+    .headline {
+      font-family: "Noto Serif JP", serif;
+      font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+      line-height: 1.35;
+      margin: 20px 0 16px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .headline em {
+      font-style: normal;
+      color: var(--brand-dark);
+      background: linear-gradient(transparent 65%, rgba(26, 122, 140, 0.15) 65%);
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 28px;
+      max-width: 52ch;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .cta-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 14px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .hero-card {
+      padding: 28px;
+      border-top: 3px solid var(--brand);
+    }
+
+    .hero-card h3 {
+      margin: 0 0 4px;
+      font-size: 1.1rem;
+      color: var(--brand-dark);
+    }
+
+    .hero-card .sub {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin: 0 0 18px;
+    }
+
+    .hero-card ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .hero-card li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 0.95rem;
+      color: #334155;
+    }
+
+    .hero-card li::before {
+      content: "✓";
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--brand-light);
+      color: var(--brand-dark);
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    /* ── Trust strip ── */
+    .trust-strip {
+      background: var(--panel);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 20px 0;
+    }
+
+    .trust-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px 40px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .trust-list li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .trust-list li::before {
+      content: "◆";
+      font-size: 0.5rem;
+      color: var(--brand);
+    }
+
+    /* ── Sections ── */
+    .section {
+      padding: 72px 0;
+    }
+
+    .section-alt {
+      background: var(--panel);
+    }
+
+    .section-title {
+      font-family: "Noto Serif JP", serif;
+      margin: 0 0 12px;
+      font-size: clamp(1.45rem, 2.8vw, 2rem);
+      line-height: 1.4;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      margin: 0 auto 36px;
+      text-align: center;
+      max-width: 58ch;
+    }
+
+    .worry-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .worry-item {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 18px 20px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .worry-item::before {
+      content: "□";
+      color: var(--brand);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .worry-footer {
+      margin-top: 28px;
+      text-align: center;
+      padding: 22px 28px;
+      background: var(--accent-soft);
+      border: 1px solid #e8dfc0;
+      border-radius: var(--radius);
+      font-family: "Noto Serif JP", serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #5c4a1a;
+    }
+
+    /* ── Before / After ── */
+    .ba-wrap {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .ba-box {
+      padding: 28px;
+    }
+
+    .ba-box h3 {
+      margin: 0 0 16px;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .ba-before {
+      background: #fafbfc;
+      border-color: #e2e8f0;
+    }
+
+    .ba-before h3 {
+      color: #94a3b8;
+    }
+
+    .ba-after {
+      background: linear-gradient(145deg, #f0faf8, #fff);
+      border-color: #b8e0d4;
+    }
+
+    .ba-after h3 {
+      color: var(--ok);
+    }
+
+    .ba-box ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+      font-size: 0.95rem;
+    }
+
+    .ba-before li::before {
+      content: "・";
+      color: #94a3b8;
+    }
+
+    .ba-after li::before {
+      content: "✓ ";
+      color: var(--ok);
+      font-weight: 700;
+    }
+
+    .arrow {
+      align-self: center;
+      font-size: 1.5rem;
+      color: var(--brand);
+      font-weight: 300;
+    }
+
+    /* ── Use cases ── */
+    .use-case {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .use-card {
+      padding: 24px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .use-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .use-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--brand-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 14px;
+    }
+
+    .use-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      color: var(--brand-dark);
+    }
+
+    .use-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    /* ── Process ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      counter-reset: step;
+    }
+
+    .step {
+      padding: 22px 18px;
+      text-align: center;
+      position: relative;
+    }
+
+    .step-num {
+      width: 36px;
+      height: 36px;
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      background: var(--brand);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .step h4 {
+      margin: 0 0 6px;
+      font-size: 0.95rem;
+      color: var(--brand-dark);
+    }
+
+    .step p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* ── FAQ ── */
+    .faq {
+      display: grid;
+      gap: 12px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      padding: 22px 24px;
+    }
+
+    .q {
+      font-weight: 700;
+      margin: 0 0 8px;
+      color: var(--brand-dark);
+      font-size: 0.98rem;
+    }
+
+    .a {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* ── Compare ── */
+    .compare-wrap {
+      overflow-x: auto;
+      padding: 4px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 580px;
+      border-collapse: collapse;
+      background: var(--panel);
+    }
+
+    th,
+    td {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+    }
+
+    th {
+      background: var(--bg);
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    th:last-child {
+      background: var(--brand-light);
+      color: var(--brand-dark);
+    }
+
+    td:last-child {
+      font-weight: 600;
+      color: var(--brand-dark);
+      background: rgba(232, 244, 246, 0.4);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* ── Voices ── */
+    .voice-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .voice {
+      padding: 24px;
+    }
+
+    .voice blockquote {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #334155;
+    }
+
+    .voice cite {
+      display: block;
+      margin-top: 14px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-style: normal;
+    }
+
+    /* ── CTA ── */
+    .final-cta {
+      text-align: center;
+      padding: 48px 32px;
+      background: linear-gradient(160deg, #fff 0%, var(--brand-light) 100%);
+      border-color: #b8dce4;
+    }
+
+    .final-cta .section-title {
+      text-align: center;
+    }
+
+    .final-cta > p {
+      margin: 12px auto;
+      color: var(--muted);
+      max-width: 58ch;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin: 32px 0 28px;
+      text-align: left;
+    }
+
+    .service-item {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .service-item h4 {
+      margin: 0 0 12px;
+      color: var(--brand-dark);
+      font-size: 1rem;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--brand-light);
+    }
+
+    .service-item ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .service-item li {
+      margin-bottom: 4px;
+    }
+
+    /* ── Form placeholder ── */
+    .booking-box {
+      max-width: 480px;
+      margin: 28px auto 0;
+      padding: 28px;
+      background: var(--panel);
+      border-radius: var(--radius);
+      border: 1px dashed var(--brand);
+      text-align: left;
+    }
+
+    .booking-box label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .booking-box input,
+    .booking-box select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-bottom: 14px;
+      font-family: inherit;
+    }
+
+    .booking-box .btn {
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .form-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    /* ── Future ── */
+    .future {
+      text-align: center;
+      padding: 64px 0 80px;
+      background: var(--brand-dark);
+      color: #fff;
+    }
+
+    .future .section-title {
+      color: #fff;
+    }
+
+    .future p {
+      margin: 0 auto 28px;
+      max-width: 56ch;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.8;
+    }
+
+    .future .btn-primary {
+      background: #fff;
+      color: var(--brand-dark);
+    }
+
+    footer {
+      padding: 24px 0 40px;
+      background: #0d3d47;
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .use-case,
+      .voice-grid,
+      .service-grid,
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      .worry-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ba-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .arrow {
+        text-align: center;
+        transform: rotate(90deg);
+      }
+
+      .nav-cta .btn-sub {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .worry-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 52px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="メインナビゲーション">
+    <div class="container nav-inner">
+      <a class="logo" href="#">
+        歯科医院専用 AI右腕
+        <span>院長のためのAI顧問サービス</span>
+      </a>
+      <div class="nav-cta cta-row">
+        <a class="btn btn-sub" href="#faq">よくある質問</a>
+        <a class="btn btn-primary" href="#cta">無料相談を予約</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="badge">歯科医院院長・開業医の方へ</span>
+        <h1 class="headline">
+          <em>“院長しかできない仕事”</em>に、<br />
+          もう一度、集中しませんか。
+        </h1>
+        <p class="lead">
+          歯科医院専用のAI右腕を、あなたの医院向けに整えます。<br />
+          難しい設定は不要。患者説明・スタッフ教育・求人・SNSまで、<br />
+          事務時間を減らし、診療と患者対応の質を均一化します。
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#cta">無料相談を予約する</a>
+          <a class="btn btn-sub" href="#service">サービス内容を見る</a>
+        </div>
+        <p class="cta-note">※ 所要時間30分・オンライン可・無理な勧誘はありません</p>
+      </div>
+      <aside class="panel hero-card">
+        <h3>医院に合わせて整えること</h3>
+        <p class="sub">開業8年目・スタッフ10名規模の院長様にも選ばれています</p>
+        <ul>
+          <li>ChatGPTを歯科医院向けに初期設定</li>
+          <li>患者説明文・治療提案のテンプレート</li>
+          <li>スタッフ教育マニュアル・院内FAQ</li>
+          <li>求人原稿・Instagram投稿テンプレ</li>
+          <li>月1回の壁打ち相談（使い方フォロー付き）</li>
+        </ul>
+      </aside>
+    </div>
+  </header>
+
+  <div class="trust-strip">
+    <div class="container">
+      <ul class="trust-list">
+        <li>医療・歯科業界の文脈で設計</li>
+        <li>個人情報の取り扱いに配慮</li>
+        <li>コピペで使える実務テンプレ</li>
+        <li>スタッフも使いやすい設計</li>
+        <li>忙しい院長向け・導入代行</li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title serif">こんなお悩み、ありませんか？</h2>
+      <p class="section-sub">
+        診療に追われながら、院長業務がすべてあなたに集中していませんか。
+      </p>
+      <div class="worry-grid">
+        <div class="worry-item">スタッフへの説明が毎回バラバラ</div>
+        <div class="worry-item">マニュアル作成が進まない</div>
+        <div class="worry-item">患者説明に時間がかかる</div>
+        <div class="worry-item">求人応募がなかなか来ない</div>
+        <div class="worry-item">Instagram・HPの更新が止まっている</div>
+        <div class="worry-item">ChatGPTは知っているが使えていない</div>
+      </div>
+      <p class="worry-footer">
+        それは“頑張り不足”ではなく、<strong>仕組み不足</strong>かもしれません。
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title serif">AIを整えると、こう変わります</h2>
+      <p class="section-sub">
+        事務時間を減らし、患者対応に時間を。院長業務の属人化を、医院の“型”に変えます。
+      </p>
+      <div class="ba-wrap">
+        <div class="panel ba-box ba-before">
+          <h3>Before</h3>
+          <ul>
+            <li>患者説明を毎回ゼロから考える</li>
+            <li>スタッフ教育が口伝えのまま</li>
+            <li>求人・SNSまで手が回らない</li>
+            <li>診療後も事務・雑務が残る</li>
+            <li>AIは便利そうだが難しそう</li>
+          </ul>
+        </div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div class="panel ba-box ba-after">
+          <h3>After</h3>
+          <ul>
+            <li>患者説明文がテンプレで均一化</li>
+            <li>教育マニュアルでスタッフの質が安定</li>
+            <li>求人・投稿文が数分で下書き完成</li>
+            <li>“院長しかできない仕事”に集中</li>
+            <li>スタッフも同じAIを日常利用</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="service" class="section">
+    <div class="container">
+      <h2 class="section-title serif">歯科医院で、すぐ使えること</h2>
+      <p class="section-sub">
+        講座で“学ぶ”のではなく、明日から診療現場で使える実務だけを整えます。
+      </p>
+      <div class="use-case">
+        <article class="panel use-card">
+          <div class="use-icon" aria-hidden="true">🦷</div>
+          <h3>患者説明・治療提案</h3>
+          <p>
+            インプラント・矯正・ホワイトニングなど、医院の方針に沿った説明文をテンプレ化。説明の質を均一に。
+          </p>
+        </article>
+        <article class="panel use-card">
+          <div class="use-icon" aria-hidden="true">📋</div>
+          <h3>スタッフ教育・院内FAQ</h3>
+          <p>
+            受付・衛生士向けマニュアル、よくある質問への回答例。毎回バラバラな説明を、医院の“型”に。
+          </p>
+        </article>
+        <article class="panel use-card">
+          <div class="use-icon" aria-hidden="true">📱</div>
+          <h3>求人・Instagram・経営文書</h3>
+          <p>
+            求人原稿、投稿テンプレ、院内掲示文案など。SNS更新が止まっても、下書きはすぐ作れる状態に。
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title serif">ご相談から導入までの流れ</h2>
+      <p class="section-sub">忙しい院長のために、設定・整備はすべてお任せください。</p>
+      <div class="steps">
+        <article class="panel step">
+          <div class="step-num">1</div>
+          <h4>無料相談（30分）</h4>
+          <p>お悩みと医院の状況をヒアリング。オンライン対応可。</p>
+        </article>
+        <article class="panel step">
+          <div class="step-num">2</div>
+          <h4>医院専用に設計</h4>
+          <p>診療メニュー・トーン・スタッフ体制に合わせて設計。</p>
+        </article>
+        <article class="panel step">
+          <div class="step-num">3</div>
+          <h4>初期設定・テンプレ納品</h4>
+          <p>ChatGPT設定と実務テンプレを、コピペで使える形でお渡し。</p>
+        </article>
+        <article class="panel step">
+          <div class="step-num">4</div>
+          <h4>月1フォロー</h4>
+          <p>使い方の壁打ち・追加テンプレの相談で定着をサポート。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section">
+    <div class="container">
+      <h2 class="section-title serif">購入前の不安にも、先にお答えします</h2>
+      <p class="section-sub">院長先生がよく検索されるキーワードにも、すべてお答えします。</p>
+      <div class="faq">
+        <article class="panel faq-item">
+          <p class="q">Q. 医療でAIを使って大丈夫ですか？</p>
+          <p class="a">
+            A. 患者の個人情報を入力しない運用ルールを、医院向けにご案内します。説明文の“型”づくりや社内マニュアル用途を中心に設計するため、診療記録そのものをAIに預ける必要はありません。
+          </p>
+        </article>
+        <article class="panel faq-item">
+          <p class="q">Q. 個人情報は安全ですか？</p>
+          <p class="a">
+            A. 氏名・カルテ番号・連絡先などをAIに入力しないガイドラインをセットでお渡しします。スタッフ全員が同じルールで使えるよう、院内FAQにも落とし込みます。
+          </p>
+        </article>
+        <article class="panel faq-item">
+          <p class="q">Q. 忙しくて導入できるか不安です</p>
+          <p class="a">
+            A. 難しい設定はすべて代行します。院長先生は“使う”だけ。無料相談は30分・オンライン可です。
+          </p>
+        </article>
+        <article class="panel faq-item">
+          <p class="q">Q. 結局使わなくなりそう…</p>
+          <p class="a">
+            A. “学ぶ”講座ではなく、患者説明・求人・投稿など日常業務のテンプレを先に用意します。月1の壁打ちで、現場に定着するまで伴走します。
+          </p>
+        </article>
+        <article class="panel faq-item">
+          <p class="q">Q. AIは難しそう。ChatGPTは触ったことがない</p>
+          <p class="a">
+            A. 登録して放置、という院長先生がほとんどです。コピペで使える状態まで整えてお渡しするので、ITが苦手でも問題ありません。
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <h2 class="section-title serif">AIを“教える”のではなく、医院専用に整えます</h2>
+      <p class="section-sub">よくあるAI講座・一般コンサルとの違いを、わかりやすくまとめました。</p>
+      <div class="compare-wrap panel">
+        <table>
+          <thead>
+            <tr>
+              <th>比較項目</th>
+              <th>よくあるAI講座</th>
+              <th>歯科経営コンサル</th>
+              <th>当サービス（AI顧問）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>提供スタイル</td>
+              <td>学ぶだけ</td>
+              <td>経営戦略中心</td>
+              <td>実務テンプレを納品</td>
+            </tr>
+            <tr>
+              <td>操作・設定</td>
+              <td>自分で設定</td>
+              <td>AIは別途</td>
+              <td>医院向けに設定済み</td>
+            </tr>
+            <tr>
+              <td>対象業界</td>
+              <td>一般向け</td>
+              <td>歯科向け</td>
+              <td>歯科医院特化</td>
+            </tr>
+            <tr>
+              <td>スタッフ利用</td>
+              <td>院長のみ</td>
+              <td>—</td>
+              <td>全員が使える設計</td>
+            </tr>
+            <tr>
+              <td>導入後フォロー</td>
+              <td>なし</td>
+              <td>契約による</td>
+              <td>月1壁打ち付き</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title serif">導入後に目指すお声</h2>
+      <div class="voice-grid">
+        <article class="panel voice">
+          <blockquote>
+            「患者説明のたびに悩む時間が減り、診療に集中できるようになった」
+          </blockquote>
+          <cite>— 開業10年・スタッフ8名・郊外クリニック 院長</cite>
+        </article>
+        <article class="panel voice">
+          <blockquote>
+            「スタッフへの説明がマニュアル化され、教育のばらつきがなくなった」
+          </blockquote>
+          <cite>— 開業6年・スタッフ12名・地方都市 院長</cite>
+        </article>
+        <article class="panel voice">
+          <blockquote>
+            「求人とInstagramの下書きがすぐできる。院長業務の負担が軽くなった」
+          </blockquote>
+          <cite>— 開業8年・スタッフ6名・競合多数エリア 院長</cite>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="cta" class="section">
+    <div class="container">
+      <div class="panel final-cta">
+        <span class="badge">無料相談・予約受付中</span>
+        <h2 class="section-title serif">
+          歯科医院専用のAI右腕を、<br />あなたの医院に作りませんか。
+        </h2>
+        <p>
+          難しいことは苦手。でも、診療に集中したい。<br />
+          事務時間を減らし、スタッフ教育をラクにしたい——<br />
+          そんな院長先生のための、医院専用AI顧問です。
+        </p>
+        <div class="service-grid">
+          <article class="service-item">
+            <h4>初期設定</h4>
+            <ul>
+              <li>ChatGPT医院向け設定</li>
+              <li>トーン・方針のカスタマイズ</li>
+              <li>スタッフ利用ガイドライン</li>
+            </ul>
+          </article>
+          <article class="service-item">
+            <h4>テンプレ整備</h4>
+            <ul>
+              <li>患者説明文・治療提案</li>
+              <li>教育マニュアル・院内FAQ</li>
+              <li>求人・Instagram投稿</li>
+            </ul>
+          </article>
+          <article class="service-item">
+            <h4>継続サポート</h4>
+            <ul>
+              <li>月1回の壁打ち相談</li>
+              <li>使い方・追加テンプレ相談</li>
+              <li>定着までの伴走</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="booking-box">
+          <form action="#" method="get" onsubmit="alert('デモ用です。実際の運用では予約フォームのURLを設定してください。'); return false;">
+            <label for="name">お名前（院長名）</label>
+            <input id="name" name="name" type="text" placeholder="山田 太郎" required />
+
+            <label for="clinic">医院名</label>
+            <input id="clinic" name="clinic" type="text" placeholder="〇〇歯科クリニック" required />
+
+            <label for="contact">メールまたはお電話</label>
+            <input id="contact" name="contact" type="text" placeholder="example@clinic.jp" required />
+
+            <label for="timing">ご希望の相談時期</label>
+            <select id="timing" name="timing">
+              <option value="">選択してください</option>
+              <option>できるだけ早く</option>
+              <option>1ヶ月以内</option>
+              <option>まずは情報収集</option>
+            </select>
+
+            <button type="submit" class="btn btn-primary">無料相談を予約する</button>
+          </form>
+          <p class="form-note">
+            無理な勧誘はありません。「AI、使えるかな？」だけのご相談も大歓迎です。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="future">
+    <div class="container">
+      <h2 class="section-title serif">
+        事務に追われる院長業務から、<br />“続けられる医院運営”へ。
+      </h2>
+      <p>
+        マニュアルが進まない。求人が来ない。SNSが止まる——<br />
+        それらを“院長の負担”のままにせず、医院の仕組みに変える。<br />
+        診療の質と、患者さんへの向き合い方を、これからも守り続けましょう。
+      </p>
+      <a class="btn btn-primary" href="#cta">無料相談を予約する</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      © 歯科医院専用 AI右腕（AI顧問サービス）｜歯科医院院長・開業医向け
+    </div>
+  </footer>
+</body>
+</html>
